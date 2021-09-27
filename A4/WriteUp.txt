@@ -1,0 +1,42 @@
+Carter Fowler - A4 Write Up
+
+1. Reflection
+    To implement a pure mirror, within the texture element of the desired object or union you make
+    the finish have a reflection of 1.0 and no ambience or diffusion.
+        EX: finish { reflection {1.0} ambient 0 diffuse 0 }
+    This technique is easier in an offline raytraced environment as it only took apply a very simple finish
+    to the object as opposed to the complex approach in an online rasterized environment.
+
+2. Wood texture
+    To implement a wood texture, within the texture element of the desired object or union you make the
+    pigment a type of wood, give it a color map for the different colors to blend between (and relative values,
+    in the example below, you blend between a light brown and medium brown for the first 80% and then blend to dark
+    brown for the last 20%), the turbulance blurs the pattern to prevent perfect cirlces, and the scale allows you
+    to adjust the size of the circles produced.
+        EX: pigment {
+                    wood
+                    color_map {
+                        [0.0 color rgb<0.64, 0.48, 0.34>]
+                        [0.8 color rgb<0.49, 0.32, 0.17>]
+                        [1.0 color rgb<0.36, 0.18, 0.02>]
+                    }
+                    turbulence 0.05
+                    scale <0.2, 0.3, 1>
+            }
+    I would say this is easier in an offline raytraced environment as you don't have worry about the math of noise
+    function to produce wood.
+
+3. Animation
+    To implement animation, you base whatever you are animating off the clock cycle. Say you want to rotate an object
+    on its y axis, you could say "rotate 360*clock*y" to have it rotate one full circle from the first frame to the last.
+    To produce all those frames and declare the clock, you need to create a .ini file to declare what .pov file you are
+    applying this animation to, what the first and last frame numbers are, and whether this should be a continuous animation
+    or not (as well as other settings that weren't necessary for my implementation).
+        .ini file EX:
+            Input_File_Name=a4.pov  //what your animating
+            Initial_Frame=1
+            Final_Frame=20
+            +KC                     //continuous animation on
+
+    This technique is easier in online rasterized rendering as you don't have worry about frame numbers or combining
+    those frames into a video yourself.
